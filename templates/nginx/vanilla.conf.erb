@@ -1,0 +1,136 @@
+# Nginx configuration file for use with Vanilla Forums 2.1
+#
+# A huge thanks goes out to Lee Hutchinson (@Lee_Ars) for writing this wonderful
+# configuration in the first place. I've merely done a bit of "templifi-ing" so
+# that it may be used in conjunction with the puppet-nginx resource as well as
+# add a phpMyAdmin rewrite.
+#
+server
+{
+    server_name <%= server_name %>;
+    root <%= root %>;
+
+    client_max_body_size 100M;
+    fastcgi_read_timeout 1800;
+
+    index <%= index %>;
+    autoindex off;
+
+    # Root location
+    #
+    location /
+    {
+        try_files $uri $uri/ @forum;
+    }
+
+    # Rewrite to prettify the URL and hide the ugly PHP stuff
+    #
+    location @forum
+    {
+        # Start with this commented out until you configure it in Vanilla!
+        rewrite ^/(.+)$ /index.php?p=$1 last;
+    }
+
+    # Rewrite the utility class as the prettified version is used by Garden
+    #
+    location ~* ^/utility/ {
+        rewrite ^/(.+)$ /index.php?p=$1 last;
+    }
+
+    # PHP handler
+    #
+    location ~ \.php$
+    {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_index <%= index %>;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_intercept_errors on;
+    }
+
+    # Stop things from executing in the uploads directory
+    #
+    location ~* ^/uploads/.*.(html|htm|shtml|php)$
+    {
+        types { }
+        default_type text/plain;
+    }
+
+    # Keep nosey people from discivering categories by number
+    #
+    location ~* /categories/([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$
+    {
+        return 404;
+    }
+
+    # Deny, drop, or internal locations
+    #
+    location ~ /\. { access_log off; log_not_found off; deny all; }
+    location ~ ~$ { access_log off; log_not_found off; deny all; }
+    location = /robots.txt { access_log off; log_not_found off; }
+    location ^~ favicon { access_log off; log_not_found off; }
+    location ^~ /conf/ { internal; }
+
+    # Taking advantage of browser caching for static stuff
+    #
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|eot|woff|ttf|svg)$
+    {
+        expires max;
+        log_not_found off;
+    }
+
+    # Change Vanilla's undesirable behavior & force it to display things like a traditional forum
+    #
+    # location = /discussions
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+    # location = /discussions/
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+    # location = /categories/discussions
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+    # location = /categories/discussions/
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+    # location /vanilla/discussions
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+    # location /vanilla/discussions/
+    # {
+    #     rewrite ^ $scheme://your.forum.com/ permanent;
+    # }
+
+    # Plug-in specific rules
+    #
+    # Keep the WhosOnline plugin from flooding the logs
+    # location /plugin/imonline { access_log off; log_not_found off; }
+
+    # Make phpMyAdmin accessible at /phpmyadmin
+    #
+    location /phpmyadmin {
+        root /usr/share/;
+        index index.php index.html index.htm;
+
+        location ~ ^/phpmyadmin/(.+\.php)$
+        {
+            try_files $uri =404;
+            root /usr/share/;
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include /etc/nginx/fastcgi_params;
+        }
+
+        location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$
+        {
+            root /usr/share/;
+        }
+    }
+}

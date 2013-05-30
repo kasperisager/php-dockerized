@@ -1,0 +1,5 @@
+*
+!.gitignore
+!default
+!default/*
+default/.DS_Store

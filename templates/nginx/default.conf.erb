@@ -1,0 +1,54 @@
+server
+{
+    server_name <%= server_name %>;
+    root <%= root %>;
+
+    client_max_body_size 100M;
+    fastcgi_read_timeout 1800;
+
+    index <%= index %>;
+
+    location /
+    {
+        try_files $uri $uri/ /<%= index %>;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$
+    {
+        expires max;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~ \.php$
+    {
+        try_files $uri =404;
+
+        include fastcgi_params;
+        fastcgi_index <%= index %>;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+    }
+
+    # Make phpMyAdmin accessible at /phpmyadmin
+    #
+    location /phpmyadmin {
+        root /usr/share/;
+        index index.php index.html index.htm;
+
+        location ~ ^/phpmyadmin/(.+\.php)$
+        {
+            try_files $uri =404;
+            root /usr/share/;
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include /etc/nginx/fastcgi_params;
+        }
+
+        location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$
+        {
+            root /usr/share/;
+        }
+    }
+}
