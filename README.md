@@ -74,4 +74,4 @@ percona::rights { "user@localhost":
 The default Percona admin user has the following credentials: `root:vagrant`.
 
 ---
-Copyright 2013 @ [Kasper Kronborg Isager](http://webhutt.com). Licensed under the terms of the [MIT License]()
+Copyright 2013 @ [Kasper Kronborg Isager](http://webhutt.com). Licensed under the terms of the [MIT License](LICENSE.md)
