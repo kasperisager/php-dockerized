@@ -39,7 +39,7 @@ To install Vagrant LNPP, simply download or clone the repo and do a `vagrant up`
 
 ### Server blocks
 
-When you've got your box up and running, navigate to [33.33.33.10](http://33.33.33.10/) to see the default server block which contains information about PHP. To set up a new server block, make a new folder in [`webroot`](webroot) and define it in [`manifests/provision/nginx/vhosts.pp`](manifests/provision/nginx/vhosts.pp):
+When you've got your box up and running, navigate to [10.1.1.1](http://10.1.1.1/) to see the default server block which contains information about PHP. To set up a new server block, make a new folder in [`webroot`](webroot) and define it in [`manifests/provision/nginx/vhosts.pp`](manifests/provision/nginx/vhosts.pp):
 
 ```puppet
 nginx::vhost { "domain":
