@@ -11,6 +11,11 @@ class bootstrap
   }
 
   include bootstrap::update, bootstrap::packages, bootstrap::modules
+
+  # Perform ordering
+  Class['bootstrap::update'] ->
+  Class['bootstrap::packages'] ->
+  Class['bootstrap::modules']
 }
 
 include bootstrap
