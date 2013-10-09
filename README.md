@@ -1,7 +1,7 @@
 Vagrant LNPP
 ============
 
-Vagrant LNPP gives you everything you need for developing PHP applications locally. It consists of a Wheezy (Debian 7) box provisioned with Linux, Nginx, Percona and PHP using Puppet. Librarian-Puppet takes care of downloading the required Puppet modules after which Puppet sets you up with an environment instantly ready for cutting code. The idea came from the need of having an OS-agnostic and virtualized alternative to the great [MNPP](http://getmnpp.org/) stack as regular LAMP stacks quite simply can't keep up with the Nginx + PHP-FPM combo in terms of performance. I hope you'll find it as useful an addition to your dev-arsenal as I've found it!
+Vagrant LNPP gives you everything you need for developing PHP applications locally. It consists of a Ubuntu 12.04 box provisioned with Nginx, Percona and PHP using Puppet. Librarian-Puppet takes care of downloading the required Puppet modules after which Puppet sets you up with an environment instantly ready for cutting code. The idea came from the need of having an OS-agnostic and virtualized alternative to the great [MNPP](http://getmnpp.org/) stack as regular LAMP stacks quite simply can't keep up with the Nginx + PHP-FPM combo in terms of performance. I hope you'll find it as useful an addition to your dev-arsenal as I've found it!
 
 ## What's inside
 
