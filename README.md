@@ -21,7 +21,7 @@ Vagrant LNPP comes with the following PHP modules installed and enabled out-of-t
 * php5-mcrypt
 * php5-sqlite
 
-If you need other modules, you can define these in [`manifests/provision.pp`](manifests/provision.pp). `.ini` configuration file templates go in [`templates/php`](templates/php) and will be automatically included if they're named `module-name.ini.erb` and your module definitions are written like this (replace `module-name` with the name of the module leaving out the `php5-` prefix):
+If you need other modules, you can define these in [`puppet/manifests/provision.pp`](puppet/manifests/provision.pp). `.ini` configuration file templates go in [`puppet/templates/php`](puppet/templates/php) and will be automatically included if they're named `module-name.ini.erb` and your module definitions are written like this (replace `module-name` with the name of the module leaving out the `php5-` prefix):
 
 ```puppet
 php::module { "module-name":
@@ -40,7 +40,7 @@ To install Vagrant LNPP, simply download or clone the repo and do a `vagrant up`
 
 ### Server blocks
 
-When you've got your box up and running, navigate to [192.168.33.10](http://192.168.33.10/) to see the default server block which contains information about PHP. To set up a new server block, make a new folder in [`public`](public) and define it in [`manifests/provision.pp`](manifests/provision.pp):
+When you've got your box up and running, navigate to [192.168.33.10](http://192.168.33.10/) to see the default server block which contains information about PHP. To set up a new server block, make a new folder in [`public`](public) and define it in [`puppet/manifests/provision.pp`](puppet/manifests/provision.pp):
 
 ```puppet
 nginx::vhost { "domain":
@@ -54,7 +54,7 @@ Now make sure you've added an entry for `domain` to your host file, do a `vagran
 
 ### Databases
 
-Databases can be added either through a definition or directly in [phpMyAdmin](#phpmyadmin). To add a new database through a definition, add something like this to [`manifests/provision.pp`](manifests/provision.pp):
+Databases can be added either through a definition or directly in [phpMyAdmin](#phpmyadmin). To add a new database through a definition, add something like this to [`puppet/manifests/provision.pp`](puppet/manifests/provision.pp):
 
 ```puppet
 percona::database { "database":
@@ -62,7 +62,7 @@ percona::database { "database":
 }
 ```
 
-Database users are managed in [`manifests/provision.pp`](manifests/provision.pp) and can be added through this definition:
+Database users are managed in [`puppet/manifests/provision.pp`](puppet/manifests/provision.pp) and can be added through this definition:
 
 ```puppet
 percona::rights { "user@localhost":
