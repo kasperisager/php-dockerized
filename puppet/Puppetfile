@@ -9,7 +9,7 @@ mod "php",
     :git => "git://github.com/saz/puppet-php.git"
 
 mod "nginx",
-    :git => "git://github.com/kasperisager/puppet-nginx.git"
+    :git => "git://github.com/davidwinter/puppet-nginx.git"
 
 mod "percona",
     :git => "git://github.com/arioch/puppet-percona.git"

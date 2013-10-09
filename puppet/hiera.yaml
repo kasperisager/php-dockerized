@@ -1,0 +1,6 @@
+---
+:backends: yaml
+:yaml:
+  :datadir: /var/lib/hiera
+:hierarchy: common
+:logger: console
