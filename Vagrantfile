@@ -72,7 +72,7 @@ Vagrant.configure("2") do |config|
   #
 
   # Bootstrap Puppet by updating guest packages and installing the required
-  # Puppet modules using libraian-chef
+  # Puppet modules using libraian-puppet
   #
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
