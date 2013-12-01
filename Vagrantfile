@@ -88,6 +88,4 @@ Vagrant.configure("2") do |config|
     puppet.manifest_file  = "provision.pp"
     puppet.options        = "--hiera_config /vagrant/puppet/hiera.yaml"
   end
-
-  config.vbguest.auto_update = false
 end
