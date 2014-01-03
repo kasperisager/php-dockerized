@@ -5,6 +5,11 @@ include provision
 #
 class provision
 {
+  Exec {
+    path        => "/bin/:/sbin/:/usr/bin/:/usr/sbin/:/usr/local/bin:/opt/vagrant_ruby/bin/",
+    environment => "HOME=/home/vagrant"
+  }
+
   include provision::params
   include apt, php, php::fpm
 

@@ -6,7 +6,7 @@ include bootstrap
 class bootstrap
 {
   Exec {
-    path        => "/bin/:/sbin/:/usr/bin/:/usr/sbin/:/usr/local/bin",
+    path        => "/bin/:/sbin/:/usr/bin/:/usr/sbin/:/usr/local/bin:/opt/vagrant_ruby/bin/",
     environment => "HOME=/home/vagrant"
   }
 
