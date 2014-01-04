@@ -39,6 +39,8 @@ class provision
     ensure  => installed,
     require => Package["php5-cgi"]
   }
+
+  include provision::hhvm
 }
 
 # Class: provision::params
@@ -47,8 +49,9 @@ class provision
 class provision::params
 {
   # Puppet variables
-  $puppet_dir     = "/vagrant/puppet"
-  $templates_dir  = "$puppet_dir/templates"
+  $puppet_dir    = "/vagrant/puppet"
+  $templates_dir = "$puppet_dir/templates"
+  $files_dir     = "$puppet_dir/files"
 
   # Webserver variables
   $sites_dir      = "/var/www"
@@ -56,9 +59,9 @@ class provision::params
   $nginx_template = "nginx/vhost.php.conf.erb"
 
   # Database variables
-  $dbuser         = "root"
-  $dbpassword     = "vagrant"
-  $dbconfig       = "/etc/.puppet.cnf"
+  $dbuser     = "root"
+  $dbpassword = "vagrant"
+  $dbconfig   = "/etc/.puppet.cnf"
 }
 
 # Class: provision::php::modules
@@ -69,6 +72,7 @@ class provision::php::modules
   $php_ini_dir     = "${provision::params::templates_dir}/php/"
   $notify_services = [
     Service["nginx"],
+    Service["hhvm-fastcgi"],
     Class["php::fpm::service"]
   ]
 
@@ -172,4 +176,50 @@ class provision::nginx::vhosts
   #   index    => "index.php",
   #   template => "${nginx_dir}/statamic.conf.erb"
   # }
+}
+
+# Class: provision::hhvm
+#
+#
+class provision::hhvm {
+  apt::source { "hhvm":
+    location    => "http://dl.hhvm.com/ubuntu",
+    release     => "precise",
+    repos       => "main",
+    include_src => false,
+    key         => "hhvm",
+    key_source  => "http://dl.hhvm.com/conf/hhvm.gpg.key",
+    before      => Package["hhvm-fastcgi"]
+  }
+
+  file { "hhvm_config":
+    ensure  => file,
+    path    => "/etc/hhvm/server.hdf",
+    source  => "${provision::params::templates_dir}/hhvm/server.hdf.erb",
+    require => Package["hhvm-fastcgi"],
+    before  => Service["hhvm-fastcgi"],
+    notify  => Service["hhvm-fastcgi"]
+  }
+
+  file { "hhvm_init":
+    ensure  => file,
+    path    => "/etc/default/hhvm-fastcgi",
+    source  => "${provision::params::templates_dir}/hhvm/hhvm-fastcgi.erb",
+    require => Package["hhvm-fastcgi"],
+    before  => Service["hhvm-fastcgi"],
+    notify  => Service["hhvm-fastcgi"]
+  }
+
+  package { "hhvm-fastcgi":
+   ensure  => latest
+  }
+
+  service { "hhvm-fastcgi":
+    ensure     => running,
+    enable     => true,
+    require    => Package["hhvm-fastcgi"],
+    binary     => "/etc/init.d/hhvm-fastcgi",
+    hasrestart => true,
+    hasstatus  => true,
+  }
 }

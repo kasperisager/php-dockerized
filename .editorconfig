@@ -10,3 +10,9 @@ trim_trailing_whitespace = true
 
 [*.pp]
 indent_size = 2
+
+[*.erb]
+indent_size = 2
+
+[Vagrantfile]
+indent_size = 2
