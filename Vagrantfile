@@ -58,6 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--cpus", "4"]
     vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
     vb.customize ["modifyvm", :id, "--nestedpaging", "on"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
   config.vm.provision :shell, :path => "bootstrap.sh"
@@ -85,17 +86,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Puppet modules using libraian-puppet
   #
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "bootstrap.pp"
-    puppet.options        = "--hiera_config /vagrant/puppet/hiera.yaml"
+    puppet.manifests_path    = "puppet/manifests"
+    puppet.manifest_file     = "bootstrap.pp"
+    puppet.hiera_config_path = "puppet/hiera.yaml"
+    # puppet.options = "--verbose --debug"
   end
 
   # Provision the box according to the main provision manifest
   #
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.module_path    = "puppet/modules"
-    puppet.manifest_file  = "provision.pp"
-    puppet.options        = "--hiera_config /vagrant/puppet/hiera.yaml"
+    puppet.manifests_path    = "puppet/manifests"
+    puppet.module_path       = "puppet/modules"
+    puppet.manifest_file     = "provision.pp"
+    puppet.hiera_config_path = "puppet/hiera.yaml"
+    # puppet.options = "--verbose --debug"
   end
 end
