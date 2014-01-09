@@ -11,3 +11,6 @@ mod "nginx",
 
 mod "percona",
     :git => "git://github.com/arioch/puppet-percona.git"
+
+mod "vcsrepo",
+    :git => "git://github.com/puppetlabs/puppetlabs-vcsrepo.git"

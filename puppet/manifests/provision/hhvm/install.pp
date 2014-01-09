@@ -1,7 +1,7 @@
-# Class: provision::hhvm::package
+# Class: provision::hhvm::install
 #
 #
-class provision::hhvm::package
+class provision::hhvm::install
 {
   apt::source { "hhvm":
     location    => "http://dl.hhvm.com/ubuntu",

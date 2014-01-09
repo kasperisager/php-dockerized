@@ -22,7 +22,7 @@ class provision
   }
 
   include provision::nginx::vhosts
-  
+
   include provision::percona::config
 
   class { "percona":
@@ -40,6 +40,10 @@ class provision
     require => Package["php5-cgi"]
   }
 
-  include provision::hhvm::package,
+  include provision::hhvm::install,
           provision::hhvm::service
+
+  include provision::xhprof::install,
+          provision::xhprof::database,
+          provision::xhprof::vhost
 }

@@ -11,6 +11,10 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 * [PHP-FPM](http://php-fpm.org/)
 * [HHVM FastCGI](http://www.hhvm.com/)
 
+### Debug tools
+
+* [XHProf](https://github.com/facebook/xhprof) and [XHProf.io](http://xhprof.io/)
+
 ### PHP modules
 
 Vagrant LNPP comes with the following PHP modules installed and enabled out-of-the-box:

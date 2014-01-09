@@ -1,0 +1,10 @@
+; enable Xhprof
+extension=xhprof.so
+
+; Automatically add files before PHP document.
+; http://www.php.net/manual/en/ini.core.php#ini.auto-prepend-file
+auto_prepend_file = /usr/share/xhprof.io/inc/prepend.php
+
+; Automatically add files after PHP document.
+; http://www.php.net/manual/en/ini.core.php#ini.auto-append-file
+auto_append_file = /usr/share/xhprof.io/inc/append.php
