@@ -13,6 +13,7 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 
 ### Debug tools
 
+* [Xdebug]() and [Webgrind](https://github.com/jokkedk/webgrind)
 * [XHProf](https://github.com/facebook/xhprof) and [XHProf.io](http://xhprof.io/)
 
 ### PHP modules
@@ -25,6 +26,7 @@ Vagrant LNPP comes with the following PHP modules installed and enabled out-of-t
 * php5-mysql
 * php5-mcrypt
 * php5-sqlite
+* php5-xdebug
 
 If you need other modules, you can define these in [`puppet/manifests/provision/php/modules.pp`](puppet/manifests/provision/php/modules.pp). `.ini` configuration file templates go in [`puppet/templates/php`](puppet/templates/php) and will be automatically included if they're named `module-name.ini.erb` and your module definitions are written like this (replace `module-name` with the name of the module leaving out the `php5-` prefix):
 

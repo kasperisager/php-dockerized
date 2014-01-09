@@ -11,39 +11,36 @@ class provision
 
   include apt
 
-  include php, php::fpm
-
-  include provision::php::modules,
+  # PHP and PHP-FPM
+  include provision::php::install,
+          provision::php::modules,
           provision::php::pools
 
-  class { "nginx":
-    ensure        => present,
-    default_vhost => "default"
-  }
+  # Nginx
+  include provision::nginx::install,
+          provision::nginx::vhosts
 
-  include provision::nginx::vhosts
-
-  include provision::percona::config
-
-  class { "percona":
-    server          => true,
-    manage_repo     => true,
-    percona_version => "5.5",
-    require         => Class["apt"]
-  }
-
-  include provision::percona::databases,
+  # Percona
+  include provision::percona::config,
+          provision::percona::install,
+          provision::percona::databases,
           provision::percona::rights
+
+  # HHVM and HHVM FastCGI
+  include provision::hhvm::install,
+          provision::hhvm::service
+
+  # XHProf and XHProf.io
+  include provision::xhprof::install,
+          provision::xhprof::database,
+          provision::xhprof::vhost
+
+  # Webgrind
+  include provision::webgrind::install,
+          provision::webgrind::vhost
 
   package { "phpmyadmin":
     ensure  => installed,
     require => Package["php5-cgi"]
   }
-
-  include provision::hhvm::install,
-          provision::hhvm::service
-
-  include provision::xhprof::install,
-          provision::xhprof::database,
-          provision::xhprof::vhost
 }
