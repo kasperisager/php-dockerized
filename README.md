@@ -14,7 +14,9 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 ### Debug tools
 
 * [Xdebug]() and [Webgrind](https://github.com/jokkedk/webgrind)
+    - Requires the following entry in `/etc/hosts`: `192.168.33.10 webgrind`
 * [XHProf](https://github.com/facebook/xhprof) and [XHProf.io](http://xhprof.io/)
+    - Requires the following entry in `/etc/hosts`: `192.168.33.10 xhprof`
 
 ### PHP modules
 
@@ -39,7 +41,7 @@ php::module { "module-name":
 
 ### phpMyAdmin
 
-[phpMyAdmin](http://www.phpmyadmin.net/) is included with Vagrant LNPP for easy database management and can be accessed on all your server blocks at `/phpmyadmin`.
+[phpMyAdmin](http://www.phpmyadmin.net/) is included with Vagrant LNPP for easy database management and can by default be accessed on all your server blocks at `/phpmyadmin`.
 
 ## Getting started
 
@@ -60,7 +62,7 @@ nginx::vhost { "domain":
 }
 ```
 
-Now make sure you've added an entry for `domain` to your host file, do a `vagrant reload` and you should be all set with your own server block.
+Now make sure you've added an entry for `domain` to your host file, do a `vagrant provision` and you should be all set with your own server block.
 
 ### Databases
 
