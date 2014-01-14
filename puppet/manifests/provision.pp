@@ -43,4 +43,8 @@ class provision
     ensure  => installed,
     require => Package["php5-cgi"]
   }
+
+  package { "curl":
+    ensure  => installed
+  }
 }
