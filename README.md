@@ -23,6 +23,7 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 Vagrant LNPP comes with the following PHP modules installed and enabled out-of-the-box:
 
 * php-apc
+* php5-gd
 * php5-curl
 * php5-memcache
 * php5-mysql
