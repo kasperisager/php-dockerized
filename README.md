@@ -16,8 +16,6 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 
 * [Xdebug]() and [Webgrind](https://github.com/jokkedk/webgrind)
     - Requires the following entry in `/etc/hosts`: `192.168.33.10 webgrind`
-* [XHProf](https://github.com/facebook/xhprof) and [XHProf.io](http://xhprof.io/)
-    - Requires the following entry in `/etc/hosts`: `192.168.33.10 xhprof`
 
 ### PHP modules
 
