@@ -8,6 +8,7 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 * [Ubuntu 12.04](http://releases.ubuntu.com/precise/)
 * [Nginx](http://nginx.org/)
 * [Percona](http://www.percona.com/)
+* [PHP 5.5](http://php.net/releases/5_5_0.php)
 * [PHP-FPM](http://php-fpm.org/)
 * [HHVM FastCGI](http://www.hhvm.com/)
 
@@ -22,7 +23,8 @@ Vagrant LNPP gives you everything you need for developing PHP applications local
 
 Vagrant LNPP comes with the following PHP modules installed and enabled out-of-the-box:
 
-* php-apc
+* php5-json
+* php5-apcu
 * php5-gd
 * php5-curl
 * php5-memcache
