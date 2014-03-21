@@ -46,7 +46,7 @@ php::module { "module-name":
 
 ## Getting started
 
-To install Vagrant LNPP, simply download or clone the repo and do a `vagrant up`. You might want to grap a coffee as provisioning the box can take a little while.
+To install Vagrant LNPP, simply download or clone the repo and do a `vagrant up`. You might want to grab a coffee as provisioning the box can take a little while.
 
 ### Server blocks
 
