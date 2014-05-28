@@ -1,0 +1,38 @@
+server {
+  server_name <%= @server_name %>;
+  root        <%= @root %>;
+  index       <%= @index %>;
+  access_log  <%= @root %>/_logs/access.log;
+  error_log   <%= @root %>/_logs/error.log;
+
+  # Cache static files for as long as possible
+  location ~* \.(?:xml|ogg|mp3|mp4|ogv|svg|svgz|eot|otf|woff|ttf|css|js|jpg|jpeg|gif|png|ico)$ {
+    try_files  $uri =404;
+    expires    max;
+    access_log off;
+    add_header Pragma public;
+    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+  }
+
+  # Deny access to configuration files
+  location ~* ^/_config {
+    deny   all;
+    return 404;
+  }
+
+  location ~ (\.yaml) {
+    return 404;
+  }
+
+  # Return a static file, if it exists, or pass to front controller
+  location / {
+    rewrite   ^/admin.php.*$ /admin.php;
+    try_files $uri $uri/ /<%= @index %>;
+  }
+
+  # Pass PHP requests on to PHP-FPM
+  location ~* \.php$ {
+    include      fastcgi_params;
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+  }
+}
