@@ -13,4 +13,10 @@ then
     sudo dpkg -i $DEB
 fi
 sudo apt-get update
-sudo apt-get install --yes puppet
+sudo apt-get install --yes puppet git-core
+
+# Install Librarian Puppet for module management
+sudo /opt/vagrant_ruby/bin/gem install librarian-puppet
+
+# Install Puppet modules using Librarion Puppet
+(cd /vagrant && /opt/vagrant_ruby/bin/librarian-puppet install)

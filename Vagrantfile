@@ -83,23 +83,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # # }
   #
 
-  # Bootstrap Puppet by updating guest packages and installing the required
-  # Puppet modules using libraian-puppet
-  #
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = "puppet/manifests"
-    puppet.manifest_file     = "bootstrap.pp"
-    puppet.hiera_config_path = "puppet/hiera.yaml"
-    # puppet.options = "--verbose --debug"
-  end
-
-  # Provision the box according to the main provision manifest
-  #
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path    = "puppet/manifests"
-    puppet.module_path       = "puppet/modules"
-    puppet.manifest_file     = "provision.pp"
-    puppet.hiera_config_path = "puppet/hiera.yaml"
+    puppet.module_path       = "modules"
+    puppet.hiera_config_path = "hiera.yaml"
     # puppet.options = "--verbose --debug"
   end
 end
