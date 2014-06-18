@@ -2,8 +2,7 @@
 #
 # A huge thanks goes out to Lee Hutchinson (@Lee_Ars) for writing this wonderful
 # configuration in the first place. I've merely done a bit of "templifi-ing" so
-# that it may be used in conjunction with the puppet-nginx resource as well as
-# add a phpMyAdmin rewrite.
+# that it may be used in conjunction with the puppet-nginx resource.
 #
 server {
   server_name <%= @server_name %>;
@@ -43,7 +42,7 @@ server {
     fastcgi_intercept_errors on;
   }
 
-  # Stop things from executing in the uploads directory
+  # Precent files from executing in the uploads directory
   #
   location ~* ^/uploads/.*.(html|htm|shtml|php)$ {
     types { }
@@ -58,36 +57,10 @@ server {
   location ^~ favicon    { access_log off; log_not_found off; }
   location ^~ /conf/     { internal; }
 
-  # Taking advantage of browser caching for static stuff
+  # Taking advantage of browser caching for static assets
   #
   location ~* \.(js|css|png|jpg|jpeg|gif|ico|eot|woff|ttf|svg)$ {
     expires       max;
     log_not_found off;
   }
-
-  # Change Vanilla's undesirable behavior & force it to display things like a traditional forum
-  #
-  # location = /discussions {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-  # location = /discussions/ {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-  # location = /categories/discussions {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-  # location = /categories/discussions/ {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-  # location /vanilla/discussions {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-  # location /vanilla/discussions/ {
-  #   rewrite ^ $scheme://your.forum.com/ permanent;
-  # }
-
-  # Plug-in specific rules
-  #
-  # Keep the WhosOnline plugin from flooding the logs
-  # location /plugin/imonline { access_log off; log_not_found off; }
 }
