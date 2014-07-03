@@ -4,45 +4,54 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+Vagrant.require_version ">= 1.6.0"
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.hostname = "lnpp.vagrantup.com"
-
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise64"
+  config.vm.box = "yungsang/coreos"
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network :forwarded_port, guest: 80, host: 8080
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 2375, host: 2375
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  # config.vm.network :public_network
+  # config.vm.network "public_network"
+
+  # If true, then any SSH connections made will enable agent forwarding.
+  # Default value: false
+  # config.ssh.forward_agent = true
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "public", "/var/www/", nfs: true
+  config.vm.synced_folder ".", "/home/core/vagrant",
+    type: "nfs",
+    id: "core",
+    mount_options: ["nolock", "vers=3", "udp"]
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+  # config.vm.provider "virtualbox" do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
   #
@@ -53,39 +62,40 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
 
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
-    vb.customize ["modifyvm", :id, "--cpus", "4"]
-    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-    vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
-    vb.customize ["modifyvm", :id, "--nestedpaging", "on"]
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-  end
+  config.vm.define "lnpp" do |lnpp|
+    config.vm.provision "docker", run: "always" do |d|
+      d.build_image "/home/core/vagrant/images/memcached",
+        args: "-t lnpp/memcached"
 
-  config.vm.provision :shell, :path => "bootstrap.sh"
+      d.build_image "/home/core/vagrant/images/store",
+        args: "-t lnpp/store"
 
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  # You will need to create the manifests directory and a manifest in
-  # the file base.pp in the manifests_path directory.
-  #
-  # An example Puppet manifest to provision the message of the day:
-  #
-  # # group { "puppet":
-  # #   ensure => "present",
-  # # }
-  # #
-  # # File { owner => 0, group => 0, mode => 0644 }
-  # #
-  # # file { '/etc/motd':
-  # #   content => "Welcome to your Vagrant-built virtual machine!
-  # #               Managed by Puppet.\n"
-  # # }
-  #
+      d.build_image "/home/core/vagrant/images/mysql",
+        args: "-t lnpp/mysql"
 
-  config.vm.provision :puppet do |puppet|
-    puppet.module_path       = "modules"
-    puppet.hiera_config_path = "hiera.yaml"
-    # puppet.options = "--verbose --debug"
+      d.build_image "/home/core/vagrant/images/nginx",
+        args: "-t lnpp/nginx"
+
+      d.run "lnpp-cache",
+        image: "lnpp/memcached",
+        args: "-p 11211:11211"
+
+      d.run "lnpp-store",
+        image: "lnpp/store"
+
+      d.run "lnpp-db",
+        image: "lnpp/mysql",
+        args: "-p 3306:3306 \
+        -e MYSQL_PASS=password \
+        --volumes-from lnpp-store"
+
+      d.run "lnpp-front",
+        image: "lnpp/nginx",
+        args: "-p 80:80 \
+        -v /home/core/vagrant/www:/var/www \
+        -v /home/core/vagrant/sites:/etc/nginx/sites-enabled \
+        --link lnpp-db:db \
+        --link lnpp-cache:cache"
+    end
   end
 end
