@@ -2,7 +2,7 @@ FROM tutum/nginx:latest
 
 # Install packages
 RUN apt-get update
-RUN apt-get install -y supervisor curl wget php5-fpm php5-mysql php5-mcrypt php5-gd php5-memcached php5-curl
+RUN apt-get install -y supervisor curl wget php5-fpm php5-mysql php5-mcrypt php5-gd php5-memcached php5-curl php5-xdebug
 
 # Install HHVM
 RUN wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
@@ -18,10 +18,11 @@ RUN mkdir -p /var/run/hhvm
 
 # Add configuration files
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD php.ini /etc/php5/fpm/conf.d/40-custom.ini
 
 # Expose volumes
 VOLUME ["/var/www", "/etc/nginx/sites-enabled"]
 
-EXPOSE 80
+EXPOSE 80 9000
 
 CMD ["/usr/bin/supervisord"]
