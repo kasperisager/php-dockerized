@@ -7,6 +7,7 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 * [CoreOS](https://coreos.com/) (optional)
 * [Nginx](http://nginx.org/)
 * [MySQL](http://www.mysql.com/)
+* [MongoDB](http://www.mongodb.org/)
 * [PHP-FPM](http://php-fpm.org/)
 * [HHVM](http://www.hhvm.com/)
 * [Memcached](http://memcached.org/)
