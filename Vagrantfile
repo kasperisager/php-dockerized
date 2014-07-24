@@ -42,7 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder ".", "/home/core/vagrant",
+  config.vm.synced_folder ".", Dir.pwd,
     type: "nfs",
     id: "core",
     mount_options: ["nolock", "vers=3", "udp"]
@@ -61,41 +61,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # View the documentation for the provider you're using for more
   # information on available options.
-
-  config.vm.define "lnpp" do |lnpp|
-    config.vm.provision "docker", run: "always" do |d|
-      d.build_image "/home/core/vagrant/images/memcached",
-        args: "-t lnpp/memcached"
-
-      d.build_image "/home/core/vagrant/images/store",
-        args: "-t lnpp/store"
-
-      d.build_image "/home/core/vagrant/images/mysql",
-        args: "-t lnpp/mysql"
-
-      d.build_image "/home/core/vagrant/images/nginx",
-        args: "-t lnpp/nginx"
-
-      d.run "lnpp-cache",
-        image: "lnpp/memcached",
-        args: "-p 11211:11211"
-
-      d.run "lnpp-store",
-        image: "lnpp/store"
-
-      d.run "lnpp-db",
-        image: "lnpp/mysql",
-        args: "-p 3306:3306 \
-        -e MYSQL_PASS=password \
-        --volumes-from lnpp-store"
-
-      d.run "lnpp-front",
-        image: "lnpp/nginx",
-        args: "-p 80:80 \
-        -v /home/core/vagrant/www:/var/www \
-        -v /home/core/vagrant/sites:/etc/nginx/sites-enabled \
-        --link lnpp-db:db \
-        --link lnpp-cache:cache"
-    end
-  end
 end

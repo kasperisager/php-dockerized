@@ -1,0 +1,32 @@
+front:
+  build: images/nginx
+  ports:
+    - "80:80"
+    - "9000:9000"
+  links:
+    - mysql:db
+    - memcached:cache
+  volumes:
+    - www:/var/www
+    - sites:/etc/nginx/sites-enabled
+
+mysql:
+  image: tutum/mysql
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_PASS: password
+
+memcached:
+  image: tutum/memcached
+  ports:
+    - "11211:11211"
+  environment:
+    MEMCACHED_PASS: password
+
+redis:
+  image: tutum/redis
+  ports:
+    - "6379:6379"
+  environment:
+    REDIS_PASS: password
