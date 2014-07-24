@@ -25,8 +25,8 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 
 ```sh
 # Clone the repository (using hub)
-$ git clone kasperisager/vagrant-lnpp
-$ cd vagrant-lnpp
+$ git clone kasperisager/fig-phpstack
+$ cd fig-phpstack
 
 # (Optional) Boot up a CoreOS box
 $ vagrant up
