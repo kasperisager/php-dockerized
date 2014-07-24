@@ -17,6 +17,13 @@ mysql:
   environment:
     MYSQL_PASS: password
 
+mongodb:
+  image: tutum/mongodb
+  ports:
+    - "27017:27017"
+  environment:
+    MONGODB_PASS: password
+
 memcached:
   image: tutum/memcached
   ports:
