@@ -21,6 +21,8 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 * [Vagrant](http://www.vagrantup.com/) (optional)
 * [VirtualBox](https://www.virtualbox.org/) (optional)
 
+### Instructions
+
 ```sh
 # Clone the repository (using hub)
 $ git clone kasperisager/vagrant-lnpp
