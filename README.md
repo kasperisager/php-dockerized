@@ -12,6 +12,7 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 * [HHVM](http://www.hhvm.com/)
 * [Memcached](http://memcached.org/)
 * [Redis](http://redis.io/)
+* [Elasticsearch](http://www.elasticsearch.org/)
 
 ## Getting started
 
@@ -39,4 +40,4 @@ $ fig up
 > If you're using the CoreOS box, make sure to set your `DOCKER_HOST` so Fig knows where to boot up the Docker containers.
 
 ---
-Copyright &copy; 2014 [Kasper Kronborg Isager](http://github.com/kasperisager). Licensed under the terms of the [MIT License](LICENSE.md)
+Copyright &copy; 2014 [Kasper Kronborg Isager](http://github.com/kasperisager). Licensed under the terms of the [MIT License](LICENSE.md).
