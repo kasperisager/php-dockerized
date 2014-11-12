@@ -46,3 +46,17 @@ elasticsearch:
   environment:
     ELASTICSEARCH_USER: admin
     ELASTICSEARCH_PASS: password
+
+shipyardDb:
+  image: shipyard/rethinkdb
+  ports:
+    - "49153:49153"
+    - "49154:49154"
+    - "49155:49155"
+
+shipyard:
+  image: shipyard/shipyard
+  ports:
+    - "8080:8080"
+  links:
+    - shipyardDb:rethinkdb
