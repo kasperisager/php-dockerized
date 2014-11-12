@@ -5,6 +5,7 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 ## What's inside
 
 * [CoreOS](https://coreos.com/) (optional)
+* [Shipyard](http://shipyard-project.com/)
 * [Nginx](http://nginx.org/)
 * [MySQL](http://www.mysql.com/)
 * [MongoDB](http://www.mongodb.org/)
@@ -38,6 +39,10 @@ $ fig up
 ```
 
 > If you're using the CoreOS box, make sure to set your `DOCKER_HOST` so Fig knows where to boot up the Docker containers.
+
+Once everything is up and running, you can access Shipyard at `http://<ip>:8080`. The default user credentials are `admin:shipyard`. Once logged in, you will need to add an engine with an address of `http://<ip>:2375` to see the local containers.
+
+The IP is in both cases either `127.0.0.1` or your Vagrant IP (`192.168.33.10` by default).
 
 ---
 Copyright &copy; 2014 [Kasper Kronborg Isager](http://github.com/kasperisager). Licensed under the terms of the [MIT License](LICENSE.md).
