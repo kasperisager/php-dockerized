@@ -1,6 +1,6 @@
-# Fig PHPStack
+# PHPStack
 
-Fig PHPStack gives you everything you need for developing PHP applications locally. The idea came from the need of having an OS-agnostic and virtualized alternative to the great [MNPP](http://getmnpp.org/) stack as regular LAMP stacks quite simply can't keep up with the Nginx + PHP-FPM/HHVM combo in terms of performance. I hope you'll find it as useful an addition to your dev-arsenal as I've found it!
+PHPStack gives you everything you need for developing PHP applications locally. The idea came from the need of having an OS-agnostic and virtualized alternative to the great [MNPP](http://getmnpp.org/) stack as regular LAMP stacks quite simply can't keep up with the Nginx + PHP-FPM/HHVM combo in terms of performance. I hope you'll find it as useful an addition to your dev-arsenal as I've found it!
 
 ## What's inside
 
@@ -28,8 +28,8 @@ Fig PHPStack gives you everything you need for developing PHP applications local
 
 ```sh
 # Clone the repository (using hub)
-$ git clone kasperisager/fig-phpstack
-$ cd fig-phpstack
+$ git clone kasperisager/phpstack
+$ cd phpstack
 
 # (Optional) Boot up a CoreOS box
 $ vagrant up
