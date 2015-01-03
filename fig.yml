@@ -4,8 +4,11 @@ front:
     - "80:80"
     - "9000:9000"
   links:
-    - mysql:db
-    - memcached:cache
+    - mysql:mysql
+    - mongodb:mongodb
+    - memcached:memcached
+    - redis:redis
+    - elasticsearch:elasticsearch
   volumes:
     - www:/var/www
     - sites:/etc/nginx/sites-enabled
