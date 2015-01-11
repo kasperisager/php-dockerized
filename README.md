@@ -45,4 +45,4 @@ Once everything is up and running, you can access Shipyard at `http://<ip>:8080`
 The IP is in both cases either `127.0.0.1` or your Vagrant IP (`192.168.33.10` by default).
 
 ---
-Copyright &copy; 2015 [Kasper Kronborg Isager](http://github.com/kasperisager). Licensed under the terms of the [MIT License](LICENSE.md).
+Copyright &copy; 2014-2015 [Kasper Kronborg Isager](http://github.com/kasperisager). Licensed under the terms of the [MIT License](LICENSE.md).
