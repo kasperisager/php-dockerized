@@ -20,7 +20,7 @@ PHPStack gives you everything you need for developing PHP applications locally. 
 ### Requirements
 
 * [Docker](https://docker.com/)
-* [Fig](http://orchardup.github.io/fig/)
+* [Docker Compose](http://docs.docker.com/compose/)
 * [Vagrant](http://www.vagrantup.com/) (optional)
 * [VirtualBox](https://www.virtualbox.org/) (optional)
 
@@ -35,12 +35,14 @@ $ cd phpstack
 $ vagrant up
 
 # Boot up the Docker containers
-$ fig up
+$ sudo docker-compose up
 ```
 
-> If you're using the CoreOS box, make sure to set your `DOCKER_HOST` so Fig knows where to boot up the Docker containers.
+> If you're using the CoreOS box, make sure to set your `DOCKER_HOST` so Docker Compose knows where to boot up the Docker containers.
 
-Once everything is up and running, you can access Shipyard at `http://<ip>:8080`. The default user credentials are `admin:shipyard`. Once logged in, you will need to add an engine with an address of `http://<ip>:2375` to see the local containers.
+Once everything is up and running, you can access Shipyard at `http://<IP>:8080`. When Docker starts, it creates a virtual interface named *docker0* on the host machine. The referenced IP will be the address of that interface.  It can be obtained by running the command `ip addr show dev docker0`.
+
+The default user credentials are `admin:shipyard`. Once logged in, you will need to [add an engine](http://shipyard-project.com/docs/engines/) with an address of `http://<IP>:2375` to see the local containers.
 
 The IP is in both cases either `127.0.0.1` or your Vagrant IP (`192.168.33.10` by default).
 
