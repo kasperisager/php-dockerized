@@ -1,8 +1,21 @@
 FROM tutum/nginx:latest
 
+# Only use stable sources
+RUN rm -rf /etc/apt/sources.list.d/proposed.list
+
 # Install packages
 RUN apt-get update
-RUN apt-get install -y supervisor curl wget php5-fpm php5-mysql php5-mcrypt php5-gd php5-memcached php5-curl php5-xdebug
+RUN apt-get install -y \
+  supervisor \
+  curl \
+  wget \
+  php5-fpm \
+  php5-mysql \
+  php5-mcrypt \
+  php5-gd \
+  php5-memcached \
+  php5-curl \
+  php5-xdebug
 
 # Install HHVM
 RUN wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
