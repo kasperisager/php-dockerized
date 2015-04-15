@@ -35,7 +35,7 @@ $ cd phpstack
 $ vagrant up
 
 # Boot up the Docker containers
-$ sudo docker-compose up
+$ docker-compose up
 ```
 
 > If you're using the CoreOS box, make sure to set your `DOCKER_HOST` so Docker Compose knows where to boot up the Docker containers.
