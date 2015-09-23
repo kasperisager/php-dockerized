@@ -1,5 +1,5 @@
 front:
-  build: images/nginx
+  build: .
   ports:
     - "80:80"
     - "9000:9000"
@@ -10,8 +10,8 @@ front:
     - redis:redis
     - elasticsearch:elasticsearch
   volumes:
-    - www:/var/www
-    - sites:/etc/nginx/sites-enabled
+    - ./www:/var/www
+    - ./sites:/etc/nginx/sites-enabled
 
 mysql:
   image: tutum/mysql
@@ -49,11 +49,3 @@ elasticsearch:
   environment:
     ELASTICSEARCH_USER: admin
     ELASTICSEARCH_PASS: password
-
-shipyard:
-  image: shipyard/deploy
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  command: start
-  ports:
-    - "8080:8080"
