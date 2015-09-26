@@ -2,14 +2,14 @@
 # Base image
 ################################################################################
 
-FROM tutum/nginx:latest
+FROM nginx
 
 ################################################################################
 # Build instructions
 ################################################################################
 
-# Only use stable sources
-RUN rm -rf /etc/apt/sources.list.d/proposed.list
+# Remove default nginx configs.
+RUN rm -f /etc/nginx/conf.d/*
 
 # Install packages
 RUN apt-get update && apt-get install -my \
@@ -30,31 +30,26 @@ RUN sed -i "s/user = www-data/user = root/" /etc/php5/fpm/pool.d/www.conf
 RUN sed -i "s/group = www-data/group = root/" /etc/php5/fpm/pool.d/www.conf
 
 # Install HHVM
-RUN wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
-RUN echo deb http://dl.hhvm.com/ubuntu trusty main | tee /etc/apt/sources.list.d/hhvm.list
+RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
+RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d/hhvm.list
 RUN apt-get update && apt-get install -y hhvm
 
-# Create required directories
-RUN mkdir -p /var/log/supervisor
-RUN mkdir -p /etc/nginx
-RUN mkdir -p /var/run/php5-fpm
-RUN mkdir -p /var/run/hhvm
-
 # Add configuration files
-COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY conf/nginx.conf /etc/nginx/
+COPY conf/supervisord.conf /etc/supervisor/conf.d/
 COPY conf/php.ini /etc/php5/fpm/conf.d/40-custom.ini
 
 ################################################################################
 # Volumes
 ################################################################################
 
-VOLUME ["/var/www", "/etc/nginx/sites-enabled"]
+VOLUME ["/var/www", "/etc/nginx/conf.d"]
 
 ################################################################################
 # Ports
 ################################################################################
 
-EXPOSE 80 9000
+EXPOSE 80 443 9000
 
 ################################################################################
 # Entrypoint

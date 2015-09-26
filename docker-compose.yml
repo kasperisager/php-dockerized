@@ -2,50 +2,42 @@ front:
   build: .
   ports:
     - "80:80"
+    - "443:443"
     - "9000:9000"
   links:
     - mysql:mysql
-    - mongodb:mongodb
+    - mongo:mongo
     - memcached:memcached
     - redis:redis
     - elasticsearch:elasticsearch
   volumes:
     - ./www:/var/www
-    - ./sites:/etc/nginx/sites-enabled
+    - ./sites:/etc/nginx/conf.d
 
 mysql:
-  image: tutum/mysql
+  image: mysql
   ports:
     - "3306:3306"
   environment:
-    MYSQL_PASS: password
+    MYSQL_ROOT_PASSWORD: password
 
-mongodb:
-  image: tutum/mongodb
+mongo:
+  image: mongo
   ports:
     - "27017:27017"
-    - "28017:28017"
-  environment:
-    MONGODB_PASS: password
 
 memcached:
-  image: tutum/memcached
+  image: memcached
   ports:
     - "11211:11211"
-  environment:
-    MEMCACHED_PASS: password
 
 redis:
-  image: tutum/redis
+  image: redis
   ports:
     - "6379:6379"
-  environment:
-    REDIS_PASS: password
 
 elasticsearch:
-  image: tutum/elasticsearch
+  image: elasticsearch
   ports:
     - "9200:9200"
-  environment:
-    ELASTICSEARCH_USER: admin
-    ELASTICSEARCH_PASS: password
+    - "9300:9300"
