@@ -29,6 +29,9 @@ RUN apt-get update && apt-get install -my \
 RUN sed -i "s/user = www-data/user = root/" /etc/php5/fpm/pool.d/www.conf
 RUN sed -i "s/group = www-data/group = root/" /etc/php5/fpm/pool.d/www.conf
 
+# Pass all docker environment
+RUN sed -i '/^;clear_env = no/s/^;//' /etc/php5/fpm/pool.d/www.conf
+
 # Install HHVM
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
 RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d/hhvm.list
