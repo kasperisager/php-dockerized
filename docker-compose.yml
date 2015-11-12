@@ -13,7 +13,7 @@ front:
   volumes:
     - ./www:/var/www
     - ./sites:/etc/nginx/conf.d
-    - ./logs:/var/log
+    - ./logs:/var/log/supervisor
 
 mysql:
   image: mysql
