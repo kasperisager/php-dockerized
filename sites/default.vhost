@@ -10,6 +10,23 @@ server {
     try_files $uri $uri/ /index.php$is_args$args;
   }
 
+  location /status {
+     access_log off;
+     allow 172.17.0.0/16;
+     deny all;
+     include /etc/nginx/fastcgi_params;
+     fastcgi_param SCRIPT_FILENAME /status;
+     fastcgi_pass unix:/var/run/php5-fpm.sock;
+  }
+
+  location /ping {
+     access_log off;
+     allow all;
+     include fastcgi_params;
+     fastcgi_param SCRIPT_FILENAME /ping;
+     fastcgi_pass unix:/Var/run/php5-fpm.sock;
+  }
+
   location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
     expires       max;
     log_not_found off;
