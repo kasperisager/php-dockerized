@@ -5,11 +5,8 @@ front:
     - "443:443"
     - "9000:9000"
   links:
-    - mysql:mysql
-    - mongo:mongo
-    - memcached:memcached
-    - redis:redis
-    - elasticsearch:elasticsearch
+    - mysql:rystlee/mysql
+    - redis:rystlee/redis
   volumes:
     - ./www:/var/www
     - ./sites:/etc/nginx/conf.d
@@ -22,23 +19,8 @@ mysql:
   environment:
     MYSQL_ROOT_PASSWORD: password
 
-mongo:
-  image: mongo
-  ports:
-    - "27017:27017"
-
-memcached:
-  image: memcached
-  ports:
-    - "11211:11211"
-
 redis:
   image: redis
   ports:
     - "6379:6379"
 
-elasticsearch:
-  image: elasticsearch
-  ports:
-    - "9200:9200"
-    - "9300:9300"
