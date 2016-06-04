@@ -1,6 +1,6 @@
 # PHP Dockerized
 
-> Dockerized PHP development stack: Nginx, MySQL, MongoDB, PHP-FPM, HHVM, Memcached, Redis, and Elasticsearch
+> Dockerized PHP development stack: Nginx, MySQL, MongoDB, PHP-FPM, HHVM, Memcached, Redis, Elasticsearch and RabbitMQ
 
 [![Build Status](https://travis-ci.org/kasperisager/php-dockerized.svg)](https://travis-ci.org/kasperisager/php-dockerized)
 
@@ -16,6 +16,7 @@ PHP Dockerized gives you everything you need for developing PHP applications loc
 * [Memcached](http://memcached.org/)
 * [Redis](http://redis.io/)
 * [Elasticsearch](http://www.elasticsearch.org/)
+* [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Requirements
 
