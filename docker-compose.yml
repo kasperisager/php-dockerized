@@ -10,6 +10,7 @@ front:
     - memcached:memcached
     - redis:redis
     - elasticsearch:elasticsearch
+    - rabbitmq:rabbitmq
   volumes:
     - ./www:/var/www
     - ./sites:/etc/nginx/conf.d
@@ -42,3 +43,9 @@ elasticsearch:
   ports:
     - "9200:9200"
     - "9300:9300"
+
+rabbitmq:
+  image: rabbitmq:3.6.1-management
+  ports:
+    - "15672:15672"
+    - "5672:5672"
