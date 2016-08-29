@@ -18,10 +18,14 @@ services:
     image: mysql
     ports:
       - "3306:3306"
-    volumes:
-      - ./mysql:/var/lib/mysql/mysql
+    volumes_from:
+      - mysqlData
     environment:
       MYSQL_ROOT_PASSWORD: password
+
+  mysqlData:
+    image: mysql
+    entrypoint: /bin/bash
 
   memcached:
     image: memcached
