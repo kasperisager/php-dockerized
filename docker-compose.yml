@@ -6,7 +6,7 @@ services:
       - "80:80"
       - "443:443"
       - "9000:9000"
-    depends_on:
+    links:
       - mysql:mysql
       - memcached:memcached
     volumes:
