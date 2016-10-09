@@ -1,0 +1,2 @@
+*.conf linguist-vendored
+*.vhost linguist-vendored
