@@ -26,17 +26,17 @@ RUN apt-get update && apt-get install -my \
   php-xdebug \
   php-apcu \
   # Ensure that PHP7 FPM is run as root.
-  && sed -i "s/user = www-data/user = root/" /etc/php/fpm/pool.d/www.conf \
-  && sed -i "s/group = www-data/group = root/" /etc/php/fpm/pool.d/www.conf \
+  && sed -i "s/user = www-data/user = root/" /etc/php/7.0/fpm/pool.d/www.conf \
+  && sed -i "s/group = www-data/group = root/" /etc/php/7.0/fpm/pool.d/www.conf \
   # Pass all docker environment
-  && sed -i '/^;clear_env = no/s/^;//' /etc/php/fpm/pool.d/www.conf \
+  && sed -i '/^;clear_env = no/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
   # Get access to FPM-ping page /ping
-  && sed -i '/^;ping\.path/s/^;//' /etc/php/fpm/pool.d/www.conf \
+  && sed -i '/^;ping\.path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
   # Get access to FPM_Status page /status
-  && sed -i '/^;pm\.status_path/s/^;//' /etc/php/fpm/pool.d/www.conf \
+  && sed -i '/^;pm\.status_path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
   # Prevent PHP Warning: 'xdebug' already loaded.
   # XDebug loaded with the core
-  && sed -i '/.*xdebug.so$/s/^/;/' /etc/php/mods-available/xdebug.ini \
+  && sed -i '/.*xdebug.so$/s/^/;/' /etc/php/7.0/mods-available/xdebug.ini \
   # Install HHVM
   && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449 \
   && echo deb http://dl.hhvm.com/debian stretch main | tee /etc/apt/sources.list.d/hhvm.list \
