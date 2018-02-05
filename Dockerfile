@@ -9,43 +9,39 @@ FROM nginx
 ################################################################################
 
 # Remove default nginx configs.
-RUN rm -f /etc/nginx/conf.d/*
-
 # Install packages
-RUN apt-get update && apt-get install -my \
-  supervisor \
-  curl \
-  wget \
-  php5-curl \
-  php5-fpm \
-  php5-gd \
-  php5-memcached \
-  php5-mysql \
-  php5-mcrypt \
-  php5-sqlite \
-  php5-xdebug \
-  php-apc
-
-# Ensure that PHP5 FPM is run as root.
-RUN sed -i "s/user = www-data/user = root/" /etc/php5/fpm/pool.d/www.conf
-RUN sed -i "s/group = www-data/group = root/" /etc/php5/fpm/pool.d/www.conf
-
-# Pass all docker environment
-RUN sed -i '/^;clear_env = no/s/^;//' /etc/php5/fpm/pool.d/www.conf
-
-# Get access to FPM-ping page /ping
-RUN sed -i '/^;ping\.path/s/^;//' /etc/php5/fpm/pool.d/www.conf
-# Get access to FPM_Status page /status
-RUN sed -i '/^;pm\.status_path/s/^;//' /etc/php5/fpm/pool.d/www.conf
-
-# Prevent PHP Warning: 'xdebug' already loaded.
-# XDebug loaded with the core
-RUN sed -i '/.*xdebug.so$/s/^/;/' /etc/php5/mods-available/xdebug.ini
+RUN rm -f /etc/nginx/conf.d/* \
+  && mkdir -p /run/php /run/hhvm \
+  && apt-get update && apt-get upgrade -y && apt-get install -my \
+    supervisor \
+    curl \
+    wget \
+    php-curl \
+    php-fpm \
+    php-gd \
+    php-memcached \
+    php-mysql \
+    php-mcrypt \
+    php-sqlite3 \
+    php-xdebug \
+    php-apcu
 
 # Install HHVM
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d/hhvm.list
-RUN apt-get update && apt-get install -y hhvm
+RUN echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list \
+    && apt-get update && apt-get install -y hhvm
+
+# Ensure that PHP5 FPM is run as root.
+# Pass all docker environment
+# Get access to FPM-ping page /ping
+# Get access to FPM_Status page /status
+# Prevent PHP Warning: 'xdebug' already loaded.
+# XDebug loaded with the core
+RUN sed -i "s/user = www-data/user = root/" /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i "s/group = www-data/group = root/" /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i '/^;clear_env = no/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i '/^;ping\.path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i '/^;pm\.status_path/s/^;//' /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i '/.*xdebug.so$/s/^/;/' /etc/php/7.0/mods-available/xdebug.ini
 
 # Add configuration files
 COPY conf/nginx.conf /etc/nginx/
