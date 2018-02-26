@@ -46,7 +46,7 @@ RUN sed -i "s/user = www-data/user = root/" /etc/php/7.0/fpm/pool.d/www.conf \
 # Add configuration files
 COPY conf/nginx.conf /etc/nginx/
 COPY conf/supervisord.conf /etc/supervisor/conf.d/
-COPY conf/php.ini /etc/php5/fpm/conf.d/40-custom.ini
+COPY conf/php.ini /etc/php/7.0/fpm/conf.d/40-custom.ini
 
 ################################################################################
 # Volumes
